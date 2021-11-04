@@ -79,6 +79,16 @@ testWriteEvenNumber =
       (Nothing, Score 0)
     ]
 
+testQuiz =
+  testTask
+    (taskQuiz "The largest ocean in the world?" (OneOf ["Pacific", "Atlantic", "Other"]) oneZeroConstraints)
+    [ (Just 4, Score 0),
+      (Just 0, Score 1),
+      (Just 1, Score 0),
+      (Just 2, Score 0),
+      (Nothing, Score 0)
+    ]
+
 tests =
   TestList
     [ testStrictTask,
@@ -88,7 +98,8 @@ tests =
       testTaskMultipleAnswers,
       testTaskMultipleAnswersNonCaseSensetive,
       testNotOneOf,
-      testWriteEvenNumber
+      testWriteEvenNumber,
+      testQuiz
     ]
 
 main = runTestTT tests

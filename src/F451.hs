@@ -84,3 +84,6 @@ newtype Property a = Property (a -> Bool)
 
 taskNumber :: q -> Property Int -> ScoreConstraints -> Task q Int
 taskNumber quest (Property prop) constr = Task quest $ evalAns prop constr
+
+taskQuiz :: q -> OneOf a -> ScoreConstraints -> Task q Int
+taskQuiz = undefined
