@@ -1,4 +1,16 @@
-on: [push]
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/**'
+      - 'src/**'
+      - 'test/**'
+      - 'app/**'
+      - 'package.yaml'
+      - 'stack.yaml'
+      - 'stack.yaml.lock'
+      - 'Setup.hs'
+
 name: build
 jobs:
   runhaskell:
@@ -10,8 +22,11 @@ jobs:
         with:
           enable-stack: true
           stack-version: 'latest'
-      - run: stack new f451
-      - run: stack setup
-      - run: stack build
-      - run: stack test
+      - run: |
+          stack new f451
+          stack setup
+          stack install hlint
+          stack build
+          stack test --coverage
+          stack exec hlint ./
 

@@ -26,7 +26,6 @@ source-repository head
 library
   exposed-modules:
       F451
-      Lib
   other-modules:
       Paths_f451
   hs-source-dirs:

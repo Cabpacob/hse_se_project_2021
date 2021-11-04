@@ -1,34 +1,32 @@
 import F451
 import Test.HUnit
 
+testTask :: Eq a => Task q a -> [(Maybe a, Score)] -> Test
+testTask task correctAndScore = TestCase (assertEqual "Task scores must match" (scoreTasks task correct) attempts)
+  where
+    (correct, attempts) = unzip correctAndScore
+
 testStrictTask =
-  TestCase
-    ( assertEqual
-        "Strict task with 0-1 constraints"
-        ( scoreTasks
-            (getStrictTask "How much?" 42 oneZeroConstraints)
-            [Just 0, Just 42, Nothing]
-        )
-        [Score 0, Score 1, Score 0]
-    )
+  testTask
+    (getStrictTask "How much?" 42 oneZeroConstraints)
+    [ (Just 0, Score 0),
+      (Just 42, Score 1),
+      (Nothing, Score 0)
+    ]
 
 testTaskNonCaseSensetive =
-  TestCase
-    ( assertEqual
-        "Case non-sensetive task with 0-1 constraints"
-        ( scoreTasks
-            (getTaskNonCaseSensetive "What???" "Haha" oneZeroConstraints)
-            [Just "Haha", Just "hAhA", Just "Hahah", Nothing]
-        )
-        [Score 1, Score 1, Score 0, Score 0]
-    )
-
-test2 = TestCase (assertEqual "s" 1 2)
+  testTask
+    (getTaskNonCaseSensetive "What???" "Haha" oneZeroConstraints)
+    [ (Just "Haha", Score 1),
+      (Just "hAhA", Score 1),
+      (Just "Hahah", Score 0),
+      (Nothing, Score 0)
+    ]
 
 tests =
   TestList
-    [ TestLabel "Strict task" testStrictTask,
-      TestLabel "Case non sensetive" testTaskNonCaseSensetive
+    [ testStrictTask,
+      testTaskNonCaseSensetive
     ]
 
 main = runTestTT tests
