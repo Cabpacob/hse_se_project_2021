@@ -33,3 +33,5 @@ scoreTask (Task _ ev) = ev
 
 scoreTasks :: Eq a => Task q a -> [Maybe a] -> [Score]
 scoreTasks (Task _ ev) attList = ev <$> attList
+
+getTaskNonCaseSensetive = undefined
