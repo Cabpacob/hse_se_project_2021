@@ -32,7 +32,8 @@ library
   hs-source-dirs:
       src
   build-depends:
-      base >=4.7 && <5
+      HUnit >=1.6.2.0
+    , base >=4.7 && <5
   default-language: Haskell2010
 
 executable f451-exe
@@ -43,7 +44,8 @@ executable f451-exe
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      HUnit >=1.6.2.0
+    , base >=4.7 && <5
     , f451
   default-language: Haskell2010
 
@@ -56,6 +58,7 @@ test-suite f451-test
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      HUnit >=1.6.2.0
+    , base >=4.7 && <5
     , f451
   default-language: Haskell2010
