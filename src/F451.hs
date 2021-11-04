@@ -56,13 +56,16 @@ taskStrict params quest corr constr = Task quest (strictStringEval params corr c
 taskStrictDefault :: q -> String -> ScoreConstraints -> Task q String
 taskStrictDefault = taskStrict (StrictEvalParams False False)
 
+newtype Property a = Property (a -> Bool)
+
+taskNumber :: taskNumber -> q -> Property Int -> ScoreConstraints -> Task q Int
+taskNumber = undefined
 
 scoreTask :: Eq a => Task q a -> Maybe a -> Score
 scoreTask (Task _ ev) = ev
 
 scoreTasks :: Eq a => Task q a -> [Maybe a] -> [Score]
 scoreTasks (Task _ ev) attList = ev <$> attList
-
 
 newtype OneOf a = OneOf[a]
 

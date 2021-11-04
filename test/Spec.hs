@@ -71,6 +71,14 @@ testNotOneOf =
       (Nothing, Score 0)
     ]
 
+testWriteEvenNumber =
+  testTask
+    (taskNumber (evPs True True) "Write an even number" (Property even) oneZeroConstraints)
+    [ (Just 228, Score 1),
+      (Just 1337, Score 0),
+      (Nothing, Score 0)
+    ]
+
 tests =
   TestList
     [ testStrictTask,
@@ -79,7 +87,8 @@ tests =
       testTaskStripAndSenseCase,
       testTaskMultipleAnswers,
       testTaskMultipleAnswersNonCaseSensetive,
-      testNotOneOf
+      testNotOneOf,
+      testWriteEvenNumber
     ]
 
 main = runTestTT tests
