@@ -74,5 +74,10 @@ doesMatchOneOf params (OneOf ops) attempt = f attempt `elem` (f <$> ops)
 taskMultipleStrict :: StrictEvalParams -> q -> OneOf String -> ScoreConstraints -> Task q String
 taskMultipleStrict params quest corr constr = Task quest $ evalAns (doesMatchOneOf params corr) constr
 
+doesMatchNothing :: StrictEvalParams -> OneOf String -> String -> Bool
+doesMatchNothing params (OneOf ops) attempt = not $ f attempt `elem` (f <$> ops)
+  where
+    f = processWithParams params
+
 taskNonMultipleStrict :: StrictEvalParams -> q -> OneOf String -> ScoreConstraints -> Task q String
-taskNonMultipleStrict params quest corr constr = undefined
+taskNonMultipleStrict params quest corr constr = Task quest $ evalAns (doesMatchNothing params corr) constr
