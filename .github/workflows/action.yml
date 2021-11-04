@@ -15,6 +15,6 @@ jobs:
           stack setup
           stack install hlint
           stack build
-          stack test
+          stack test --coverage
           stack exec hlint ./
 
