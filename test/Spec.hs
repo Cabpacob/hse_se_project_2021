@@ -23,10 +23,20 @@ testTaskNonCaseSensetive =
       (Nothing, Score 0)
     ]
 
+testTaskStrip =
+  testTask
+    (getTestTaskStrip "Who killed the tzar?" "Kommunyaki" oneZeroConstraints)
+    [ (Just "Kommunyaki", Score 1),
+      (Just " Kommunyaki   ", Score 1),
+      (Just "Nobody", Score 0),
+      (Nothing, Score 0)
+    ]
+
 tests =
   TestList
     [ testStrictTask,
-      testTaskNonCaseSensetive
+      testTaskNonCaseSensetive,
+      getTestTaskStrip
     ]
 
 main = runTestTT tests

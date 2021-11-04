@@ -43,3 +43,5 @@ getNotCaseSensetiveEval scco answ (Just attm)
 
 getTaskNonCaseSensetive :: q -> [Char] -> ScoreConstraints -> Task q [Char]
 getTaskNonCaseSensetive ques answ scco = Task ques (getNotCaseSensetiveEval scco answ)
+
+getTestTaskStrip = undefined
