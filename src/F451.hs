@@ -22,16 +22,19 @@ data Task q a = Task
     eval :: Maybe a -> Score
   }
 
+evalAns :: (t -> Bool) -> ScoreConstraints -> Maybe t -> Score
+evalAns  _        cs  Nothing = noAnswerScore cs
+evalAns doesMatch cs (Just ans)
+  | doesMatch ans = maxScore cs
+  | otherwise     = minScore cs
+
 data StrictEvalParams = StrictEvalParams {trim :: Bool, noCaseSense :: Bool}
 
 evPs :: Bool -> Bool -> StrictEvalParams
 evPs = StrictEvalParams
 
-strictStringEval :: StrictEvalParams -> String -> ScoreConstraints -> Maybe String -> Score
-strictStringEval _      _    cs  Nothing = noAnswerScore cs
-strictStringEval params corr cs (Just ans)
-  | process corr == process ans = maxScore cs
-  | otherwise = minScore cs
+doesMatchStrictString :: StrictEvalParams -> String -> String -> Bool
+doesMatchStrictString params corr attempt = process corr == process attempt
   where
     process = processTrim . processSenseCase
     processTrim = if trim params then trimStr else idStr
@@ -41,6 +44,8 @@ strictStringEval params corr cs (Just ans)
         f = reverse . dropWhile isSpace
     idStr s = s
 
+strictStringEval :: StrictEvalParams -> String -> ScoreConstraints -> Maybe String -> Score
+strictStringEval params correct = evalAns (doesMatchStrictString params correct)
 
 taskStrict :: StrictEvalParams -> q -> String -> ScoreConstraints -> Task q String
 taskStrict params quest corr constr = Task quest (strictStringEval params corr constr)
