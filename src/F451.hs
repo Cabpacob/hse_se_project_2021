@@ -11,6 +11,9 @@ data ScoreConstraints = ScoreConstraints
     maxScore :: Score
   }
 
+oneZeroConstraints :: ScoreConstraints
+oneZeroConstraints = ScoreConstraints (Score 0) (Score 0) (Score 1)
+
 data Task q a = Task
   { question :: q,
     eval :: Maybe a -> Score
@@ -24,3 +27,9 @@ getStrictEval scco answ (Just attm)
 
 getStrictTask :: Eq a => q -> a -> ScoreConstraints -> Task q a
 getStrictTask ques answ scco = Task ques (getStrictEval scco answ)
+
+scoreTask :: Eq a => Task q a -> Maybe a -> Score
+scoreTask (Task _ ev) = ev
+
+scoreTasks :: Eq a => Task q a -> [Maybe a] -> [Score]
+scoreTasks (Task _ ev) attList = ev <$> attList
