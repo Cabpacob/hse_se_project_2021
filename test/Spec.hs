@@ -51,13 +51,35 @@ testTaskMultipleAnswers =
       (Nothing, Score 0)
     ]
 
+testTaskMultipleAnswersNonCaseSensetive =
+  testTask
+    (taskMultipleStrict (evPs True True) "xxx" (OneOf ["x", "B ", " t "]) oneZeroConstraints)
+    [ (Just " X", Score 1),
+      (Just " b", Score 1),
+      (Just " tt", Score 0),
+      (Just " 6    ", Score 0),
+      (Nothing, Score 0)
+    ]
+
+testNotOneOf =
+  testTask
+    (taskNonMultipleStrict (evPs True True) "what can you do at home" (OneOf ["make fire", "jump from window"]) oneZeroConstraints)
+    [ (Just " Make Fire", Score 0),
+      (Just "jump from window", Score 0),
+      (Just "eat", Score 1),
+      (Just "sleep!", Score 1),
+      (Nothing, Score 0)
+    ]
+
 tests =
   TestList
     [ testStrictTask,
       testTaskNonCaseSensetive,
       testTaskStrip,
       testTaskStripAndSenseCase,
-      testTaskMultipleAnswers
+      testTaskMultipleAnswers,
+      testTaskMultipleAnswersNonCaseSensetive,
+      testNotOneOf
     ]
 
 main = runTestTT tests

@@ -73,3 +73,6 @@ doesMatchOneOf params (OneOf ops) attempt = f attempt `elem` (f <$> ops)
 
 taskMultipleStrict :: StrictEvalParams -> q -> OneOf String -> ScoreConstraints -> Task q String
 taskMultipleStrict params quest corr constr = Task quest $ evalAns (doesMatchOneOf params corr) constr
+
+taskNonMultipleStrict :: StrictEvalParams -> q -> OneOf String -> ScoreConstraints -> Task q String
+taskNonMultipleStrict params quest corr constr = undefined
