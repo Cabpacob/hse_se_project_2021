@@ -1,4 +1,16 @@
-on: [push]
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/**'
+      - 'src/**'
+      - 'test/**'
+      - 'app/**'
+      - 'package.yaml'
+      - 'stack.yaml'
+      - 'stack.yaml.lock'
+      - 'Setup.hs'
+
 name: build
 jobs:
   runhaskell:
