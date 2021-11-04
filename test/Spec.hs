@@ -34,10 +34,20 @@ testTaskStrip =
 
 testTaskStripAndSenseCase =
   testTask
-    (taskStrict undefined "What does the fox say?" " no one knows " oneZeroConstraints)
+    (taskStrict (evPs True True) "What does the fox say?" " no one knows " oneZeroConstraints)
     [ (Just "woof", Score 0),
       (Just "tweet", Score 0),
       (Just "No one knows", Score 1),
+      (Nothing, Score 0)
+    ]
+
+testTaskMultipleAnswers =
+  testTask
+    (taskMultipleStrict (evPs True True) "What is 2 + 2 * 2?" (OneOf ["4", "6"]) oneZeroConstraints)
+    [ (Just "4", Score 1),
+      (Just "6", Score 1),
+      (Just " 4    ", Score 1),
+      (Just " 6    ", Score 1),
       (Nothing, Score 0)
     ]
 
@@ -46,7 +56,8 @@ tests =
     [ testStrictTask,
       testTaskNonCaseSensetive,
       testTaskStrip,
-      testTaskStripAndSenseCase
+      testTaskStripAndSenseCase,
+      testTaskMultipleAnswers
     ]
 
 main = runTestTT tests

@@ -6,6 +6,8 @@ import Data.Char (isSpace, toLower)
 
 newtype Score = Score Float deriving (Eq, Num, Show)
 
+data OneOf a = OneOf[a]
+
 data ScoreConstraints = ScoreConstraints
   { minScore :: Score,
     noAnswerScore :: Score,
@@ -45,6 +47,9 @@ taskStrict params quest corr constr = Task quest (strictStringEval params corr c
 
 taskStrictDefault :: q -> String -> ScoreConstraints -> Task q String
 taskStrictDefault = taskStrict (StrictEvalParams False False)
+
+taskMultipleStrict :: StrictEvalParams -> q -> OneOf String -> ScoreConstraints -> Task q String
+taskMultipleStrict params quest corr constr = undefined
 
 
 scoreTask :: Eq a => Task q a -> Maybe a -> Score
