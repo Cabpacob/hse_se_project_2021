@@ -27,35 +27,33 @@ evalAns doesMatch cs (Just ans)
   | doesMatch ans = maxScore cs
   | otherwise     = minScore cs
 
-data StrictEvalParams = StrictEvalParams {trim :: Bool, noCaseSense :: Bool}
+type StringProcessor = String -> String
+type StrProcList = [StringProcessor]
 
-evPs :: Bool -> Bool -> StrictEvalParams
-evPs = StrictEvalParams
-
-processWithParams :: StrictEvalParams -> String -> String
-processWithParams params = processTrim . processSenseCase
+procTrim :: String -> String
+procTrim = f . f
   where
-    processTrim = if trim params then trimStr else idStr
-    processSenseCase = if noCaseSense params then fmap toLower else idStr
-    trimStr = f . f
-      where
-        f = reverse . dropWhile isSpace
-    idStr s = s
+    f = reverse . dropWhile isSpace
 
-doesMatchStrictString :: StrictEvalParams -> String -> String -> Bool
+procToLower :: String -> String
+procToLower = fmap toLower
+
+processWithParams :: [StringProcessor] -> String -> String
+processWithParams = foldl (.) id
+
+doesMatchStrictString :: [StringProcessor] -> String -> String -> Bool
 doesMatchStrictString params corr attempt = process corr == process attempt
   where
     process = processWithParams params
 
-strictStringEval :: StrictEvalParams -> String -> ScoreConstraints -> Maybe String -> Score
+strictStringEval :: StrProcList -> String -> ScoreConstraints -> Maybe String -> Score
 strictStringEval params correct = evalAns (doesMatchStrictString params correct)
 
-taskStrict :: StrictEvalParams -> q -> String -> ScoreConstraints -> Task q String
+taskStrict :: StrProcList -> q -> String -> ScoreConstraints -> Task q String
 taskStrict params quest corr constr = Task quest (strictStringEval params corr constr)
 
 taskStrictDefault :: q -> String -> ScoreConstraints -> Task q String
-taskStrictDefault = taskStrict (StrictEvalParams False False)
-
+taskStrictDefault = taskStrict []
 
 scoreTask :: Eq a => Task q a -> Maybe a -> Score
 scoreTask (Task _ ev) = ev
@@ -65,20 +63,20 @@ scoreTasks (Task _ ev) attList = ev <$> attList
 
 newtype OneOf a = OneOf[a]
 
-doesMatchOneOf :: StrictEvalParams -> OneOf String -> String -> Bool
+doesMatchOneOf :: StrProcList -> OneOf String -> String -> Bool
 doesMatchOneOf params (OneOf ops) attempt = f attempt `elem` (f <$> ops)
   where
     f = processWithParams params
 
-taskMultipleStrict :: StrictEvalParams -> q -> OneOf String -> ScoreConstraints -> Task q String
+taskMultipleStrict :: StrProcList -> q -> OneOf String -> ScoreConstraints -> Task q String
 taskMultipleStrict params quest corr constr = Task quest $ evalAns (doesMatchOneOf params corr) constr
 
-doesMatchNothing :: StrictEvalParams -> OneOf String -> String -> Bool
+doesMatchNothing :: StrProcList -> OneOf String -> String -> Bool
 doesMatchNothing params (OneOf ops) attempt = f attempt `notElem` (f <$> ops)
   where
     f = processWithParams params
 
-taskNonMultipleStrict :: StrictEvalParams -> q -> OneOf String -> ScoreConstraints -> Task q String
+taskNonMultipleStrict :: StrProcList -> q -> OneOf String -> ScoreConstraints -> Task q String
 taskNonMultipleStrict params quest corr constr = Task quest $ evalAns (doesMatchNothing params corr) constr
 
 

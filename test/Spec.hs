@@ -16,7 +16,7 @@ testStrictTask =
 
 testTaskNonCaseSensetive =
   testTask
-    (taskStrict (evPs False True) "What???" "Haha" oneZeroConstraints)
+    (taskStrict [procToLower] "What???" "Haha" oneZeroConstraints)
     [ (Just "Haha", Score 1),
       (Just "hAhA", Score 1),
       (Just "Hahah", Score 0),
@@ -25,7 +25,7 @@ testTaskNonCaseSensetive =
 
 testTaskStrip =
   testTask
-    (taskStrict (evPs True False) "Who killed the tzar?" " Kommunyaki" oneZeroConstraints)
+    (taskStrict [procTrim] "Who killed the tzar?" " Kommunyaki" oneZeroConstraints)
     [ (Just "Kommunyaki", Score 1),
       (Just " Kommunyaki   ", Score 1),
       (Just "Nobody", Score 0),
@@ -34,7 +34,7 @@ testTaskStrip =
 
 testTaskStripAndSenseCase =
   testTask
-    (taskStrict (evPs True True) "What does the fox say?" " no one knows " oneZeroConstraints)
+    (taskStrict [procTrim, procToLower] "What does the fox say?" " no one knows " oneZeroConstraints)
     [ (Just "woof", Score 0),
       (Just "tweet", Score 0),
       (Just "No one knows", Score 1),
@@ -43,7 +43,7 @@ testTaskStripAndSenseCase =
 
 testTaskMultipleAnswers =
   testTask
-    (taskMultipleStrict (evPs True True) "What is 2 + 2 * 2?" (OneOf ["4", "6"]) oneZeroConstraints)
+    (taskMultipleStrict [procTrim, procToLower] "What is 2 + 2 * 2?" (OneOf ["4", "6"]) oneZeroConstraints)
     [ (Just "4", Score 1),
       (Just "6", Score 1),
       (Just " 4    ", Score 1),
@@ -53,7 +53,7 @@ testTaskMultipleAnswers =
 
 testTaskMultipleAnswersNonCaseSensetive =
   testTask
-    (taskMultipleStrict (evPs True True) "xxx" (OneOf ["x", "B ", " t "]) oneZeroConstraints)
+    (taskMultipleStrict [procTrim, procToLower] "xxx" (OneOf ["x", "B ", " t "]) oneZeroConstraints)
     [ (Just " X", Score 1),
       (Just " b", Score 1),
       (Just " tt", Score 0),
@@ -63,7 +63,7 @@ testTaskMultipleAnswersNonCaseSensetive =
 
 testNotOneOf =
   testTask
-    (taskNonMultipleStrict (evPs True True) "what can you do at home" (OneOf ["make fire", "jump from window"]) oneZeroConstraints)
+    (taskNonMultipleStrict [procTrim, procToLower] "what can you do at home" (OneOf ["make fire", "jump from window"]) oneZeroConstraints)
     [ (Just " Make Fire", Score 0),
       (Just "jump from window", Score 0),
       (Just "eat", Score 1),
