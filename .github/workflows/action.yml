@@ -11,10 +11,10 @@ jobs:
           enable-stack: true
           stack-version: 'latest'
       - run: |
-        stack new f451
-        stack setup
-        stack install hlint
-        stack build
-        stack test
-        stack exec hlint ./
+          stack new f451
+          stack setup
+          stack install hlint
+          stack build
+          stack test
+          stack exec hlint ./
 
