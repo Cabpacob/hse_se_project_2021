@@ -2,7 +2,7 @@
 
 module F451 where
 
-import Data.Char
+import Data.Char (isSpace, toLower)
 
 newtype Score = Score Float deriving (Eq, Num, Show)
 
@@ -20,28 +20,35 @@ data Task q a = Task
     eval :: Maybe a -> Score
   }
 
-getStrictEval :: Eq a => ScoreConstraints -> a -> Maybe a -> Score
-getStrictEval scco answ Nothing = noAnswerScore scco
-getStrictEval scco answ (Just attm)
-  | attm == answ = maxScore scco
-  | otherwise = minScore scco
+data StrictEvalParams = StrictEvalParams {trim :: Bool, noCaseSense :: Bool}
 
-getStrictTask :: Eq a => q -> a -> ScoreConstraints -> Task q a
-getStrictTask ques answ scco = Task ques (getStrictEval scco answ)
+evPs :: Bool -> Bool -> StrictEvalParams
+evPs = StrictEvalParams
+
+strictStringEval :: StrictEvalParams -> String -> ScoreConstraints -> Maybe String -> Score
+strictStringEval _      _    cs  Nothing = noAnswerScore cs
+strictStringEval params corr cs (Just ans)
+  | process corr == process ans = maxScore cs
+  | otherwise = minScore cs
+  where
+    process = processTrim . processSenseCase
+    processTrim = if trim params then trimStr else idStr
+    processSenseCase = if noCaseSense params then fmap toLower else idStr
+    trimStr = f . f
+      where
+        f = reverse . dropWhile isSpace
+    idStr s = s
+
+
+taskStrict :: StrictEvalParams -> q -> String -> ScoreConstraints -> Task q String
+taskStrict params quest corr constr = Task quest (strictStringEval params corr constr)
+
+taskStrictDefault :: q -> String -> ScoreConstraints -> Task q String
+taskStrictDefault = taskStrict (StrictEvalParams False False)
+
 
 scoreTask :: Eq a => Task q a -> Maybe a -> Score
 scoreTask (Task _ ev) = ev
 
 scoreTasks :: Eq a => Task q a -> [Maybe a] -> [Score]
 scoreTasks (Task _ ev) attList = ev <$> attList
-
-getNotCaseSensetiveEval :: ScoreConstraints -> [Char] -> Maybe [Char] -> Score
-getNotCaseSensetiveEval scco answ Nothing = noAnswerScore scco
-getNotCaseSensetiveEval scco answ (Just attm)
-  | map toLower attm == map toLower answ = maxScore scco
-  | otherwise                            = minScore scco
-
-getTaskNonCaseSensetive :: q -> [Char] -> ScoreConstraints -> Task q [Char]
-getTaskNonCaseSensetive ques answ scco = Task ques (getNotCaseSensetiveEval scco answ)
-
-getTestTaskStrip = undefined

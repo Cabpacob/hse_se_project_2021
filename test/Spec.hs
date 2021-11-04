@@ -2,21 +2,21 @@ import F451
 import Test.HUnit
 
 testTask :: Eq a => Task q a -> [(Maybe a, Score)] -> Test
-testTask task correctAndScore = TestCase (assertEqual "Task scores must match" (scoreTasks task correct) attempts)
+testTask task correctAndScore = TestCase (assertEqual "Task scores must match" attempts (scoreTasks task correct))
   where
     (correct, attempts) = unzip correctAndScore
 
 testStrictTask =
   testTask
-    (getStrictTask "How much?" 42 oneZeroConstraints)
-    [ (Just 0, Score 0),
-      (Just 42, Score 1),
+    (taskStrictDefault "How much?" "42" oneZeroConstraints)
+    [ (Just "0", Score 0),
+      (Just "42", Score 1),
       (Nothing, Score 0)
     ]
 
 testTaskNonCaseSensetive =
   testTask
-    (getTaskNonCaseSensetive "What???" "Haha" oneZeroConstraints)
+    (taskStrict (evPs False True) "What???" "Haha" oneZeroConstraints)
     [ (Just "Haha", Score 1),
       (Just "hAhA", Score 1),
       (Just "Hahah", Score 0),
@@ -25,10 +25,19 @@ testTaskNonCaseSensetive =
 
 testTaskStrip =
   testTask
-    (getTestTaskStrip "Who killed the tzar?" "Kommunyaki" oneZeroConstraints)
+    (taskStrict (evPs True False) "Who killed the tzar?" " Kommunyaki" oneZeroConstraints)
     [ (Just "Kommunyaki", Score 1),
       (Just " Kommunyaki   ", Score 1),
       (Just "Nobody", Score 0),
+      (Nothing, Score 0)
+    ]
+
+testTaskStripAndSenseCase =
+  testTask
+    (taskStrict undefined "What does the fox say?" " no one knows " oneZeroConstraints)
+    [ (Just "woof", Score 0),
+      (Just "tweet", Score 0),
+      (Just "No one knows", Score 1),
       (Nothing, Score 0)
     ]
 
@@ -36,7 +45,8 @@ tests =
   TestList
     [ testStrictTask,
       testTaskNonCaseSensetive,
-      getTestTaskStrip
+      testTaskStrip,
+      testTaskStripAndSenseCase
     ]
 
 main = runTestTT tests
