@@ -56,10 +56,6 @@ taskStrict params quest corr constr = Task quest (strictStringEval params corr c
 taskStrictDefault :: q -> String -> ScoreConstraints -> Task q String
 taskStrictDefault = taskStrict (StrictEvalParams False False)
 
-newtype Property a = Property (a -> Bool)
-
-taskNumber :: taskNumber -> q -> Property Int -> ScoreConstraints -> Task q Int
-taskNumber = undefined
 
 scoreTask :: Eq a => Task q a -> Maybe a -> Score
 scoreTask (Task _ ev) = ev
@@ -78,9 +74,15 @@ taskMultipleStrict :: StrictEvalParams -> q -> OneOf String -> ScoreConstraints 
 taskMultipleStrict params quest corr constr = Task quest $ evalAns (doesMatchOneOf params corr) constr
 
 doesMatchNothing :: StrictEvalParams -> OneOf String -> String -> Bool
-doesMatchNothing params (OneOf ops) attempt = not $ f attempt `elem` (f <$> ops)
+doesMatchNothing params (OneOf ops) attempt = f attempt `notElem` (f <$> ops)
   where
     f = processWithParams params
 
 taskNonMultipleStrict :: StrictEvalParams -> q -> OneOf String -> ScoreConstraints -> Task q String
 taskNonMultipleStrict params quest corr constr = Task quest $ evalAns (doesMatchNothing params corr) constr
+
+
+newtype Property a = Property (a -> Bool)
+
+taskNumber :: q -> Property Int -> ScoreConstraints -> Task q Int
+taskNumber quest (Property prop) constr = Task quest $ evalAns prop constr

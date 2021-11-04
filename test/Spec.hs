@@ -73,7 +73,7 @@ testNotOneOf =
 
 testWriteEvenNumber =
   testTask
-    (taskNumber (evPs True True) "Write an even number" (Property even) oneZeroConstraints)
+    (taskNumber "Write an even number" (Property even) oneZeroConstraints)
     [ (Just 228, Score 1),
       (Just 1337, Score 0),
       (Nothing, Score 0)
