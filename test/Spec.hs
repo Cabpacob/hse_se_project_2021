@@ -89,6 +89,19 @@ testQuiz =
       (Nothing, Score 0)
     ]
 
+testMultipleRequired =
+  testTask
+    (taskMultipleRequired "Name all directions of the world" (AllOf [("North", 1), ("East", 1), ("West", 1), ("South", 1)]) oneZeroConstraints)
+    [ (Just ["North", "East", "West", "South"], Score 1),
+      (Just ["South", "west", " East ", "North"], Score 1),
+      (Just ["South", "wEst", "eAst  "], Score 0.75),
+      (Just ["  norTh", "wEst", "   eAst  "], Score 0.75),
+      (Just [""], Score 0),
+      (Just ["Three whales", "Giant turtle"], Score 0),
+      (Just ["Three whales", "Giant turtle", "South", "Park"], Score 0.25),
+      (Nothing, Score 0)
+    ]
+
 tests =
   TestList
     [ testStrictTask,
@@ -99,7 +112,8 @@ tests =
       testTaskMultipleAnswersNonCaseSensetive,
       testNotOneOf,
       testWriteEvenNumber,
-      testQuiz
+      testQuiz,
+      testMultipleRequired
     ]
 
 main = runTestTT tests

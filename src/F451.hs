@@ -3,8 +3,8 @@
 module F451 where
 
 import Data.Char (isSpace, toLower)
-import GHC.OldList (find)
 import Foreign.Marshal.Utils (fromBool)
+import GHC.OldList (find)
 
 newtype Score = Score Float deriving (Eq, Num, Show)
 
@@ -62,7 +62,7 @@ scoreTask (Task _ ev) = ev
 scoreTasks :: Eq a => Task q a -> [Maybe a] -> [Score]
 scoreTasks (Task _ ev) attList = ev <$> attList
 
-newtype OneOf a = OneOf[a]
+newtype OneOf a = OneOf [a]
 
 doesMatchOneOf :: StrProcList -> OneOf String -> String -> Bool
 doesMatchOneOf params (OneOf ops) attempt = f attempt `elem` (f <$> ops)
@@ -80,7 +80,6 @@ doesMatchNothing params (OneOf ops) attempt = f attempt `notElem` (f <$> ops)
 taskNonMultipleStrict :: StrProcList -> q -> OneOf String -> ScoreConstraints -> Task q String
 taskNonMultipleStrict params quest corr constr = Task quest $ evalAns (doesMatchNothing params corr) constr
 
-
 newtype Property a = Property (a -> Bool)
 
 taskNumber :: q -> Property Int -> ScoreConstraints -> Task q Int
@@ -88,3 +87,8 @@ taskNumber quest (Property prop) constr = Task quest $ evalAns prop constr
 
 taskQuiz :: q -> OneOf a -> Int -> ScoreConstraints -> Task q Int
 taskQuiz quest vars corr constr = Task quest $ Score . maybe 0 (fromBool . (corr == ))
+
+newtype AllOf a = AllOf [(a, Score)]
+
+taskMultipleRequired :: Eq a => q -> AllOf a -> ScoreConstraints -> Task q [a]
+taskMultipleRequired = undefined
