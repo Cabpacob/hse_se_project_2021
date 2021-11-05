@@ -105,7 +105,8 @@ testMultipleRequired =
 testOneMistake =
     testTask
         (taskOneMistake "Some question" "Correct Ans" oneZeroConstraints)
-        [ (Just "Correct Ass", 1)
+        [ (Just "Correct Ass", 1),
+          (Just "Correct Ans", 0)
         ]
 
 testNMistakes =
@@ -120,6 +121,12 @@ testSimpleEquation =
         [ (Just 0.5, 1)
         ]
 
+testNoMoreThanOneMistake =
+    testTask
+        (taskNoMoreThanOneMistake "Some question" "Correct Ans" oneZeroConstraints)
+        [ (Just "Correct Ass", 1),
+          (Just "Correct Ans", 1)
+        ]
 
 tests =
   TestList
@@ -135,7 +142,8 @@ tests =
       testMultipleRequired,
       testOneMistake,
       testNMistakes,
-      testSimpleEquation
+      testSimpleEquation,
+      testNoMoreThanOneMistake
     ]
 
 main = runTestTT tests

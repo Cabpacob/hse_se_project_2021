@@ -116,4 +116,9 @@ taskNMistakes quest corr num constr = Task quest $ Score . maybe 0 (fromBool . (
 
 {- ax + b = c С автоматическим вычислением ответа -}
 taskSimpleEquation :: q -> Float -> Float -> Float -> ScoreConstraints -> Task q Float
-taskSimpleEquation = undefined
+taskSimpleEquation quest a b c constr = Task quest $ Score . maybe 0 (\x -> fromBool (abs(a * x + b - c) < eps))
+  where
+    eps = 1e-9
+
+taskNoMoreThanOneMistake :: q -> String -> ScoreConstraints -> Task q String
+taskNoMoreThanOneMistake = undefined
