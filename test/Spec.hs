@@ -128,6 +128,13 @@ testNoMoreThanOneMistake =
           (Just "Correct Ans", 1)
         ]
 
+testQuadraticEquation =
+    testTask
+        (taskQuadraticEquation "x^2 + 2x + 1 = 0" 1 2 1 oneZeroConstraints)
+        [ (Just (-1.0, -1.0), 1),
+          (Just (-1.0, 1.0), 0)
+        ]
+
 tests =
   TestList
     [ testStrictTask,
@@ -143,7 +150,8 @@ tests =
       testOneMistake,
       testNMistakes,
       testSimpleEquation,
-      testNoMoreThanOneMistake
+      testNoMoreThanOneMistake,
+      testQuadraticEquation
     ]
 
 main = runTestTT tests

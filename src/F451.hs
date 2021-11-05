@@ -121,4 +121,7 @@ taskSimpleEquation quest a b c constr = Task quest $ Score . maybe 0 (\x -> from
     eps = 1e-9
 
 taskNoMoreThanOneMistake :: q -> String -> ScoreConstraints -> Task q String
-taskNoMoreThanOneMistake = undefined
+taskNoMoreThanOneMistake quest corr constr = Task quest $ Score . maybe 0 (fromBool . (1 >=) . mistakes corr)
+
+taskQuadraticEquation :: q -> Float -> Float -> Float -> ScoreConstraints -> Task q (Float, Float)
+taskQuadraticEquation = undefined
