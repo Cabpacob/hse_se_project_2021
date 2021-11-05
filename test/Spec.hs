@@ -102,6 +102,12 @@ testMultipleRequired =
       (Nothing, Score 0)
     ]
 
+testOneMistake =
+    testTask
+        (taskOneMistake "Some question" "Correct Ans" oneZeroConstraints)
+        [ (Just "Correct Ass", 1)
+        ]
+
 tests =
   TestList
     [ testStrictTask,
@@ -113,7 +119,8 @@ tests =
       testNotOneOf,
       testWriteEvenNumber,
       testQuiz,
-      testMultipleRequired
+      testMultipleRequired,
+      testOneMistake
     ]
 
 main = runTestTT tests
