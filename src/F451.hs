@@ -3,23 +3,26 @@
 module F451 where
 
 import Data.Char (isSpace, toLower)
+import Data.Bool (bool)
+import Data.List (length)
 import Foreign.Marshal.Utils (fromBool)
 import GHC.OldList (find)
+import GHC.Float (int2Float)
 
 newtype Score = Score Float deriving (Eq, Num, Show)
 
 data ScoreConstraints = ScoreConstraints
-  { minScore :: Score,
-    noAnswerScore :: Score,
-    maxScore :: Score
+  { minScore :: Score
+  , noAnswerScore :: Score
+  , maxScore :: Score
   }
 
 oneZeroConstraints :: ScoreConstraints
 oneZeroConstraints = ScoreConstraints (Score 0) (Score 0) (Score 1)
 
 data Task q a = Task
-  { question :: q,
-    eval :: Maybe a -> Score
+  { question :: q
+  , eval :: Maybe a -> Score
   }
 
 evalAns :: (t -> Bool) -> ScoreConstraints -> Maybe t -> Score
@@ -34,7 +37,7 @@ type StrProcList = [StringProcessor]
 procTrim :: String -> String
 procTrim = f . f
   where
-    f = reverse . dropWhile isSpace
+     f = reverse . dropWhile isSpace
 
 procToLower :: String -> String
 procToLower = fmap toLower
@@ -90,5 +93,11 @@ taskQuiz quest vars corr constr = Task quest $ Score . maybe 0 (fromBool . (corr
 
 newtype AllOf a = AllOf [(a, Score)]
 
+sumOfAns :: Eq a => ScoreConstraints -> AllOf a -> Maybe [a] -> Score
+sumOfAns constr _ Nothing 
+    = noAnswerScore constr
+sumOfAns constr (AllOf vars) (Just as) 
+    = Score $ sum (fmap (\ans -> sum $ fmap (\(var, Score scr) -> bool 0.0 scr (var == ans)) vars) as) / int2Float (length vars)
+
 taskMultipleRequired :: Eq a => q -> AllOf a -> ScoreConstraints -> Task q [a]
-taskMultipleRequired = undefined
+taskMultipleRequired quest vars constr = Task quest $ sumOfAns constr vars
