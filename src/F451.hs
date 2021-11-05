@@ -110,3 +110,8 @@ mistakes (x:xs) (y:ys)
 
 taskOneMistake :: q -> String -> ScoreConstraints -> Task q String
 taskOneMistake quest corr constr = Task quest $ Score . maybe 0 (fromBool . (1 ==) . mistakes corr)
+
+taskNMistakes :: q -> String -> Int -> ScoreConstraints -> Task q String
+taskNMistakes quest corr constr = undefined
+
+

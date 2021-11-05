@@ -108,6 +108,12 @@ testOneMistake =
         [ (Just "Correct Ass", 1)
         ]
 
+testNMistakes =
+    testTask
+        (taskNMistakes "Some question" "Correct Ans" 2 oneZeroConstraints)
+        [ (Just "Correct ass", 1)
+        ]
+
 tests =
   TestList
     [ testStrictTask,
@@ -120,7 +126,8 @@ tests =
       testWriteEvenNumber,
       testQuiz,
       testMultipleRequired,
-      testOneMistake
+      testOneMistake,
+      testNMistakes
     ]
 
 main = runTestTT tests
