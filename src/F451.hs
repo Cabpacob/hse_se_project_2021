@@ -102,5 +102,11 @@ sumOfAns constr (AllOf vars) (Just as)
 taskMultipleRequired :: Eq a => q -> AllOf a -> ScoreConstraints -> Task q [a]
 taskMultipleRequired quest vars constr = Task quest $ sumOfAns constr vars
 
+mistakes :: String -> String -> Int
+mistakes [] [] = 0
+mistakes (x:xs) (y:ys)
+  | x == y    = mistakes xs ys
+  | otherwise = 1 + mistakes xs ys
+
 taskOneMistake :: q -> String -> ScoreConstraints -> Task q String
-taskOneMistake = undefined
+taskOneMistake quest corr constr = Task quest $ Score . maybe 0 (fromBool . (1 ==) . mistakes corr)
