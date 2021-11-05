@@ -4,6 +4,7 @@ module F451 where
 
 import Data.Char (isSpace, toLower)
 import GHC.OldList (find)
+import Foreign.Marshal.Utils (fromBool)
 
 newtype Score = Score Float deriving (Eq, Num, Show)
 
@@ -85,5 +86,5 @@ newtype Property a = Property (a -> Bool)
 taskNumber :: q -> Property Int -> ScoreConstraints -> Task q Int
 taskNumber quest (Property prop) constr = Task quest $ evalAns prop constr
 
-taskQuiz :: q -> OneOf a -> ScoreConstraints -> Task q Int
-taskQuiz = undefined
+taskQuiz :: q -> OneOf a -> Int -> ScoreConstraints -> Task q Int
+taskQuiz quest vars corr constr = Task quest $ Score . maybe 0 (fromBool . (corr == ))

@@ -81,7 +81,7 @@ testWriteEvenNumber =
 
 testQuiz =
   testTask
-    (taskQuiz "The largest ocean in the world?" (OneOf ["Pacific", "Atlantic", "Other"]) oneZeroConstraints)
+    (taskQuiz "The largest ocean in the world?" (OneOf ["Pacific", "Atlantic", "Other"]) 0 oneZeroConstraints)
     [ (Just 4, Score 0),
       (Just 0, Score 1),
       (Just 1, Score 0),
