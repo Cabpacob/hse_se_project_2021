@@ -124,4 +124,6 @@ taskNoMoreThanOneMistake :: q -> String -> ScoreConstraints -> Task q String
 taskNoMoreThanOneMistake quest corr constr = Task quest $ Score . maybe 0 (fromBool . (1 >=) . mistakes corr)
 
 taskQuadraticEquation :: q -> Float -> Float -> Float -> ScoreConstraints -> Task q (Float, Float)
-taskQuadraticEquation = undefined
+taskQuadraticEquation quest a b c constr = Task quest $ Score . maybe 0 (\(x1, x2) -> fromBool ((abs(a * x1 * x1 + b * x1 + c) < eps) && (abs(a * x2 * x2 + b * x2 + c) < eps)))
+  where
+    eps = 1e-9
