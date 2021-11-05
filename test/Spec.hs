@@ -114,6 +114,13 @@ testNMistakes =
         [ (Just "Correct ass", 1)
         ]
 
+testSimpleEquation =
+    testTask
+        (taskSimpleEquation "2x + 3 = 4" 2 3 4 oneZeroConstraints)
+        [ (Just 0.5, 1)
+        ]
+
+
 tests =
   TestList
     [ testStrictTask,
@@ -127,7 +134,8 @@ tests =
       testQuiz,
       testMultipleRequired,
       testOneMistake,
-      testNMistakes
+      testNMistakes,
+      testSimpleEquation
     ]
 
 main = runTestTT tests

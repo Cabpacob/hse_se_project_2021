@@ -114,4 +114,6 @@ taskOneMistake quest corr constr = Task quest $ Score . maybe 0 (fromBool . (1 =
 taskNMistakes :: q -> String -> Int -> ScoreConstraints -> Task q String
 taskNMistakes quest corr num constr = Task quest $ Score . maybe 0 (fromBool . (num ==) . mistakes corr)
 
-
+{- ax + b = c С автоматическим вычислением ответа -}
+taskSimpleEquation :: q -> Float -> Float -> Float -> ScoreConstraints -> Task q Float
+taskSimpleEquation = undefined
