@@ -135,6 +135,13 @@ testQuadraticEquation =
           (Just (-1.0, 1.0), 0)
         ]
 
+testIntervalCheckingTask =
+    testTask
+        (taskIntervalChecking "What grade for the semester will we get in the SE course?" 0 3 oneZeroConstraints)
+        [ (Just 10, 0),
+          (Just 2, 1)
+        ]
+
 tests =
   TestList
     [ testStrictTask,
@@ -151,7 +158,8 @@ tests =
       testNMistakes,
       testSimpleEquation,
       testNoMoreThanOneMistake,
-      testQuadraticEquation
+      testQuadraticEquation,
+      testIntervalCheckingTask
     ]
 
 main = runTestTT tests

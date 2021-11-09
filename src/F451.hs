@@ -127,3 +127,6 @@ taskQuadraticEquation :: q -> Float -> Float -> Float -> ScoreConstraints -> Tas
 taskQuadraticEquation quest a b c constr = Task quest $ Score . maybe 0 (\(x1, x2) -> fromBool ((abs(a * x1 * x1 + b * x1 + c) < eps) && (abs(a * x2 * x2 + b * x2 + c) < eps)))
   where
     eps = 1e-9
+
+taskIntervalChecking :: q -> Int -> Int -> ScoreConstraints -> Task q Int
+taskIntervalChecking = undefined
