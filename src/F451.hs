@@ -129,4 +129,4 @@ taskQuadraticEquation quest a b c constr = Task quest $ Score . maybe 0 (\(x1, x
     eps = 1e-9
 
 taskIntervalChecking :: q -> Int -> Int -> ScoreConstraints -> Task q Int
-taskIntervalChecking = undefined
+taskIntervalChecking quest a b constr = Task quest $ Score . maybe 0 (fromBool . (\x -> a <= x && x <= b))
