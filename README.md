@@ -1,16 +1,15 @@
 # 451 Fahrenheit
 
-[Презентация проекта](https://docs.google.com/presentation/d/1Ve6xeb4-FLGNJpRn_BId_PoTfhUm-ez01O-_th2Kiw4/edit?usp=sharing)
+[Project presentation](https://docs.google.com/presentation/d/1Ve6xeb4-FLGNJpRn_BId_PoTfhUm-ez01O-_th2Kiw4/edit?usp=sharing)
 
 
-Ультимативное приложение для создания заданий и их автоматической проверки.
+An ultimate application for creating tasks and automatically checking them.
 
-Установка:
+Installation:
 
 ```
 git clone https://github.com/Cabpacob/hse_se_project_2021
-stack build
+stack builder
 ```
 
-От всей души благодарим наши семьи за поддержку на этом нелегком пути, а также Майка Мирзаянова за прекрасные платформы polygon и codeforces.
-
+We sincerely thank our families for their support on this difficult path, as well as Mike Mirzayanov for the excellent polygon and codeforces platforms.
