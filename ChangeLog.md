@@ -7,8 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.0] - 2020-11-10
+## [1.0.0] - 2021-11-9
 ### Added
 - Basic architecture
 - Many different types of tasks
 - Tests for all types of tasks
+
+## [1.0.1] - 2021-11-9
+### Added
+- Interval Checking Task
+- Test for interval checking task
