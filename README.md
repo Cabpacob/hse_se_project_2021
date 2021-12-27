@@ -31,3 +31,29 @@ from the project root.
 ## Acknowledgments
 
 We sincerely thank our families for their support on this difficult path, as well as Mike Mirzayanov for the excellent polygon and codeforces platforms.
+
+
+# Examples
+### The largest ocean in the world?
+
+`taskQuiz "The largest ocean in the world?" (OneOf ["Pacific", "Atlantic", "Other"]) 0 oneZeroConstraints`
+
+Answers:
+* `Just 4 -> Score 0`
+* `Just 0 -> Score 1`
+* `Just 1 -> Score 0`
+* `Just 2 -> Score 0`
+* `Nothing -> Score 0`
+
+### Name all directions of the world
+`taskMultipleRequired "Name all directions of the world" (AllOf [("North", 1), ("East", 1), ("West", 1), ("South", 1)]) oneZeroConstraints`
+
+Answers:
+* `Just ["North", "East", "West", "South"] -> Score 1`
+* `Just ["South", "West", "East", "North"] -> Score 1`
+* `Just ["South", "wEst", "eAst  "] -> Score 0.25`
+* `Just ["  norTh", "wEst", "   eAst  "] -> Score 0`
+* `Just [""] -> Score 0`
+* `Just ["Three whales", "Giant turtle"] -> Score 0`
+* `Just ["Three whales", "Giant turtle", "South", "Park"] -> Score 0.25`
+* `Nothing -> Score 0`
