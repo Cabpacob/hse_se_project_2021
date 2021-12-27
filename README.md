@@ -6,7 +6,12 @@
 An ultimate application for creating tasks and automatically checking them.
 
 ## Installation (on your machine)
+Install stack:
+```
+apt install haskell-stack
+```
 
+Install F451:
 ```
 git clone https://github.com/Cabpacob/hse_se_project_2021
 cd hse_se_project_2021
@@ -18,22 +23,22 @@ stack build
 _Note_: Following command should be executed 
 from the project root.
 
-    ```
-    docker build -t build-f451 -f docker/buildCurrent.Dockerfile
-    ```
+```
+docker build -t build-f451 -f docker/buildCurrent.Dockerfile
+```
 
 ## Execution (under Docker)
 
-    ```
-    docker build -t exec-f451 -f docker/runCurrent.Dockerfile
-    ```
+```
+docker build -t exec-f451 -f docker/runCurrent.Dockerfile
+```
 
 ## Acknowledgments
 
 We sincerely thank our families for their support on this difficult path, as well as Mike Mirzayanov for the excellent polygon and codeforces platforms.
 
 
-# Examples
+## Examples
 ### The largest ocean in the world?
 
 `taskQuiz "The largest ocean in the world?" (OneOf ["Pacific", "Atlantic", "Other"]) 0 oneZeroConstraints`
