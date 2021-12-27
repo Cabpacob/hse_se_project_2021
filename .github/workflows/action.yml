@@ -1,0 +1,32 @@
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - '.github/**'
+      - 'src/**'
+      - 'test/**'
+      - 'app/**'
+      - 'package.yaml'
+      - 'stack.yaml'
+      - 'stack.yaml.lock'
+      - 'Setup.hs'
+
+name: build
+jobs:
+  runhaskell:
+    name: F451
+    runs-on: ubuntu-latest 
+    steps:
+      - uses: actions/checkout@v2
+      - uses: haskell/actions/setup@v1
+        with:
+          enable-stack: true
+          stack-version: 'latest'
+      - run: |
+          stack new f451
+          stack setup
+          stack install hlint
+          stack build
+          stack test --coverage
+          stack exec hlint ./
+

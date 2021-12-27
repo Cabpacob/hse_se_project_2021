@@ -1,0 +1,63 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.34.4.
+--
+-- see: https://github.com/sol/hpack
+
+name:           f451
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/githubuser/f451#readme>
+homepage:       https://github.com/githubuser/f451#readme
+bug-reports:    https://github.com/githubuser/f451/issues
+author:         Mikhail Savrasov
+maintainer:     Cabpacob@github.com
+copyright:      2021 Cabpacob
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/githubuser/f451
+
+library
+  exposed-modules:
+      F451
+  other-modules:
+      Paths_f451
+  hs-source-dirs:
+      src
+  build-depends:
+      HUnit >=1.6.2.0
+    , base >=4.7 && <5
+  default-language: Haskell2010
+
+executable f451-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_f451
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      HUnit >=1.6.2.0
+    , base >=4.7 && <5
+    , f451
+  default-language: Haskell2010
+
+test-suite f451-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_f451
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      HUnit >=1.6.2.0
+    , base >=4.7 && <5
+    , f451
+  default-language: Haskell2010
