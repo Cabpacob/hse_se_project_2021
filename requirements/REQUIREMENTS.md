@@ -6,13 +6,13 @@ The Student can login to their account, analyse particular grades and get predic
 
 ### Principal
 
-The Principal can login to their account, analyse particular grades, observe completed assignments and compare with the correct solutions and analyse particular class grades.
+The Principal can login to their account, analyse particular grades and analyse particular class grades.
 
 ### Teacher
 
-The Teacher can login to their account, create assignments, analyse particular grades, grade assignments automatically and get prediction about the aggregated score.
+The Teacher can login to their account, create assignments, analyse particular grades and grade assignments automatically.
 
-## User Case Diagram
+## Use Case Diagram
 
 <p align="center">
   <img src="./use_case.png">
